@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Customer extends Player{
 
     public int Cash;
@@ -7,25 +9,40 @@ public class Customer extends Player{
         Cash = cash;
         winCount = 0;
         lossCount = 0;
+        handCards = new ArrayList<Card>();
     }
 
-    public boolean demandCard(Card dealerUpCard){
-        // the logic to whether draw a card or not
-        if(handValue >= stayOn){
+    public boolean drawCard(Card newCard){
+        handCards.add(newCard);
+        System.out.print("Player: Drawing a new card ... " + newCard.rank + "\n");
+        if(newCard.rank.equals(Rank.ACE)){
+
+        }
+
+        handValue += newCard.cardValue;
+        isSoftHand = true;
+
+        if(handValue > 21){
+            System.out.print("Player: damn it ... busted at " + handValue + "\n");
             return false;
         }
 
         return true;
     }
 
-    public boolean drawCard(Card newCard){
+    public boolean shouldDemandCard(Card dealerUpCard){
+        System.out.print("Player: dealer has a " + dealerUpCard.rank + " showing ... " + "\n");
+        System.out.print("Player: I currently have ");
 
-        if(newCard.rank.equals(Rank.ACE)){
-            handValue += newCard.cardValue;
-            isSoftHand = true;
+        for (Card card: handCards) {
+            System.out.print(card.rank);
+            System.out.print(" ");
         }
 
-        if(handValue > 21){
+        System.out.print("\n");
+
+        if(handValue >= stayOn){
+            System.out.print("Player: Staying on " + handValue + "\n");
             return false;
         }
 

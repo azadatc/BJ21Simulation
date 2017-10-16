@@ -5,14 +5,14 @@ import java.util.Random;
 public class Shoe {
     public ArrayList<Deck> decks;
     public ArrayList<Card> discarded;
-    public ArrayList<Card> allCards;
+    public ArrayList<Card> availableCards;
 
     private Random _rand = new Random();
 
     public Shoe(int numberOfDecks){
         decks = new ArrayList<Deck>();
         discarded = new ArrayList<Card>();
-        allCards = new ArrayList<Card>();
+        availableCards = new ArrayList<Card>();
 
         for(int i = 0 ; i < numberOfDecks ; i++){
             decks.add(new Deck());
@@ -20,21 +20,21 @@ public class Shoe {
 
         for (Deck deck: decks){
             for (Card card : deck.cards){
-                allCards.add(card);
+                availableCards.add(card);
             }
         }
     }
 
     public void shuffle(){
-        Collections.shuffle(allCards);
+        Collections.shuffle(availableCards);
     }
 
     public Card draw(){
-        if(allCards.isEmpty()){
+        if(availableCards.isEmpty()){
             return null;
         }
 
-        Card retCard = allCards.remove(getRandomInt(allCards.size()));
+        Card retCard = availableCards.remove(getRandomInt(availableCards.size()));
         this.discarded.add(retCard);
         return retCard;
     }

@@ -3,24 +3,29 @@ public class Game {
     public Player dealer;
     public Player customer;
 
-    public Game(){
-        shoe = new Shoe(4);
+    public Game(int numberOfDecks){
+        shoe = new Shoe(numberOfDecks);
         dealer = new Dealer();
         customer = new Customer(200);
     }
 
     public void dealHand(){
-        customer.handCards.add(shoe.draw());
-        dealer.handCards.add(shoe.draw());
-        customer.handCards.add(shoe.draw());
-        dealer.handCards.add(shoe.draw());
+        customer.drawCard(shoe.draw());
+        dealer.drawCard(shoe.draw());
 
-        while(customer.demandCard(dealer.getTopCard())){
-            customer.drawCard(shoe.draw());
+        customer.drawCard(shoe.draw());
+        dealer.drawCard(shoe.draw());
+
+        while(customer.shouldDemandCard(dealer.getTopCard())){
+            if(!customer.drawCard(shoe.draw())){
+                break;
+            };
         }
 
-        while(dealer.demandCard(null)){
-            dealer.drawCard(shoe.draw());
+        while(dealer.shouldDemandCard(null)){
+            if(!dealer.drawCard(shoe.draw())){
+                break;
+            };
         }
 
         settleResults(dealer, customer);
@@ -41,5 +46,18 @@ public class Game {
             dealer.loser();
             customer.winner();
         }
+    }
+
+    public void dealTheShoe(){
+        while(shoe.availableCards.size() > 20){
+            dealHand();
+        }
+
+        printStats();
+    }
+
+    public void printStats(){
+        System.out.print("Player: Win: " + customer.winCount + " and loss: " + customer.lossCount + "\n");
+        System.out.print("Dealer: Win: " + dealer.winCount + " and loss: " + dealer.lossCount + "\n");
     }
 }

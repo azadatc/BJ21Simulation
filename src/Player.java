@@ -33,7 +33,7 @@ public class Player {
         throw new UnsupportedOperationException();
     }
 
-    public boolean demandCard(Card dealerUpCard){
+    public boolean shouldDemandCard(Card dealerUpCard){
         throw new UnsupportedOperationException();
     }
 }
