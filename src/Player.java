@@ -8,7 +8,7 @@ public class Player {
     public boolean isSoftHand;
     public ArrayList<Card> handCards;
 
-    public void ResetHand(){
+    public void resetHand(){
         handValue = 0;
         handCards.clear();
     }
@@ -19,6 +19,22 @@ public class Player {
         }
 
         return null;
+    }
+
+    public boolean hasTwentyOne(){
+        if(handCards.get(0).rank.equals(Rank.ACE)){
+            if(handCards.get(1).cardValue == 10){
+                return true;
+            }
+        }
+
+        if(handCards.get(0).cardValue == 10){
+            if(handCards.get(1).rank.equals(Rank.ACE)){
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void winner(){

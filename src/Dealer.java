@@ -12,6 +12,7 @@ public class Dealer extends Player {
     public boolean drawCard(Card newCard){
         handCards.add(newCard);
         System.out.print("Dealer: Drawing a new card ... " + newCard.rank + "\n");
+
         if(newCard.rank.equals(Rank.ACE)){
             // the logic with a soft hand goes here
         }
@@ -25,6 +26,8 @@ public class Dealer extends Player {
 
         return true;
     }
+
+
 
     public boolean shouldDemandCard(Card dealerUpcard){
         if(handValue >= stayOn){

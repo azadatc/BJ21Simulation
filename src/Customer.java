@@ -41,6 +41,15 @@ public class Customer extends Player{
 
         System.out.print("\n");
 
+        // Do not hit on stiff hands if dealer has a bust card showing.
+        if(handValue > 12){
+            if(dealerUpCard.cardValue > 2 && dealerUpCard.cardValue < 7){
+                // dealer has a bust card
+                System.out.print("Player: Staying on " + handValue + "\n");
+                return false;
+            }
+        }
+
         if(handValue >= stayOn){
             System.out.print("Player: Staying on " + handValue + "\n");
             return false;

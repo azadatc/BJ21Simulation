@@ -10,42 +10,57 @@ public class Game {
     }
 
     public void dealHand(){
-        customer.drawCard(shoe.draw());
-        dealer.drawCard(shoe.draw());
+        boolean customerBusted = false;
 
         customer.drawCard(shoe.draw());
         dealer.drawCard(shoe.draw());
 
-        while(customer.shouldDemandCard(dealer.getTopCard())){
-            if(!customer.drawCard(shoe.draw())){
-                break;
-            };
-        }
+        customer.drawCard(shoe.draw());
+        dealer.drawCard(shoe.draw());
 
-        while(dealer.shouldDemandCard(null)){
-            if(!dealer.drawCard(shoe.draw())){
-                break;
-            };
-        }
-
-        settleResults(dealer, customer);
-        dealer.ResetHand();
-        customer.ResetHand();
-    }
-
-    private void settleResults(Player dealer, Player customer){
-        if(dealer.handValue == customer.handValue){
+        // if either party has a 21, game is over
+        if(dealer.hasTwentyOne() || customer.hasTwentyOne()){
+            settleResults(dealer, customer);
+            customer.resetHand();
+            dealer.resetHand();
             return;
         }
 
+        // otherwise player starts playing
+        while(customer.shouldDemandCard(dealer.getTopCard())){
+            if(!customer.drawCard(shoe.draw())){
+                customerBusted = true;
+                break;
+            };
+        }
+
+        // if customer hasn't busted yet, dealer start playing
+        if(customerBusted){
+            while(dealer.shouldDemandCard(null)){
+                if(!dealer.drawCard(shoe.draw())){
+                    break;
+                };
+            }
+        }
+
+        // settle the results
+        settleResults(dealer, customer);
+
+    }
+
+    private void settleResults(Player dealer, Player customer){
         if(dealer.handValue > customer.handValue){
             dealer.winner();
             customer.loser();
         }
-        else{
+
+        if(dealer.handValue < customer.handValue){
             dealer.loser();
             customer.winner();
         }
+
+        dealer.resetHand();
+        customer.resetHand();
     }
 
     public void dealTheShoe(){
