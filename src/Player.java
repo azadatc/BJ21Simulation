@@ -3,13 +3,14 @@ import java.util.ArrayList;
 public class Player {
     public int stayOn;
     public int handValue;
-    public int winCount;
-    public int lossCount;
+    public float winCount;
+    public float lossCount;
     public boolean isSoftHand;
     public ArrayList<Card> handCards;
 
     public void resetHand(){
         handValue = 0;
+        isSoftHand = false;
         handCards.clear();
     }
 
@@ -21,7 +22,7 @@ public class Player {
         return null;
     }
 
-    public boolean hasTwentyOne(){
+    public boolean hasBlackJack(){
         if(handCards.get(0).rank.equals(Rank.ACE)){
             if(handCards.get(1).cardValue == 10){
                 return true;
@@ -41,6 +42,8 @@ public class Player {
         winCount++;
     }
 
+    public void blackJack() { throw new UnsupportedOperationException(); }
+
     public void loser(){
         lossCount++;
     }
@@ -49,7 +52,7 @@ public class Player {
         throw new UnsupportedOperationException();
     }
 
-    public boolean shouldDemandCard(Card dealerUpCard){
+    public boolean shouldTakeACard(Card dealerUpCard){
         throw new UnsupportedOperationException();
     }
 }

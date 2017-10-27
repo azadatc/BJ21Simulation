@@ -16,7 +16,6 @@ public class Card {
     private Map<Rank, Integer> rankValueMap = new HashMap<Rank, Integer>()
     {
         {
-            put(rank.ACE, 1);
             put(rank.TWO, 2);
             put(rank.THREE, 3);
             put(rank.FOUR, 4);
@@ -29,6 +28,7 @@ public class Card {
             put(rank.JACK, 10);
             put(rank.QUEEN, 10);
             put(rank.KING, 10);
+            put(rank.ACE, 11);
         }
     };
 }

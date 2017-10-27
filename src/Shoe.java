@@ -26,6 +26,9 @@ public class Shoe {
     }
 
     public void shuffle(){
+        // as part of the shuffle, we make sure all cards are available again.
+        availableCards.addAll(discarded);
+        discarded.clear();
         Collections.shuffle(availableCards);
     }
 
@@ -40,6 +43,6 @@ public class Shoe {
     }
 
     private int getRandomInt(int max){
-        return _rand.nextInt(max-1)+1;
+        return _rand.nextInt(max - 1) + 1;
     }
 }

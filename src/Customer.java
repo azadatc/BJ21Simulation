@@ -14,24 +14,37 @@ public class Customer extends Player{
 
     public boolean drawCard(Card newCard){
         handCards.add(newCard);
-        System.out.print("Player: Drawing a new card ... " + newCard.rank + "\n");
-        if(newCard.rank.equals(Rank.ACE)){
 
+        System.out.println("Player: Drawing a new card ... " + newCard.rank );
+
+        if(newCard.rank.equals(Rank.ACE)){
+            isSoftHand = true;
         }
 
         handValue += newCard.cardValue;
-        isSoftHand = true;
 
         if(handValue > 21){
-            System.out.print("Player: damn it ... busted at " + handValue + "\n");
-            return false;
+            if(newCard.rank.equals(Rank.ACE)){
+                // the logic with a soft hand goes here
+                handValue -= 10;
+                isSoftHand = false;
+            }
+
+            if(isSoftHand){
+                handValue -= 10;
+            }
+
+            if(handValue > 21){
+                System.out.println("Player: damn it ... busted at " + handValue);
+                return false;
+            }
         }
 
         return true;
     }
 
-    public boolean shouldDemandCard(Card dealerUpCard){
-        System.out.print("Player: dealer has a " + dealerUpCard.rank + " showing ... " + "\n");
+    public boolean shouldTakeACard(Card dealerUpCard){
+        System.out.println("Player: dealer has a " + dealerUpCard.rank + " showing ... ");
         System.out.print("Player: I currently have ");
 
         for (Card card: handCards) {
@@ -41,20 +54,8 @@ public class Customer extends Player{
 
         System.out.print("\n");
 
-        // Do not hit on stiff hands if dealer has a bust card showing.
-        if(handValue > 12){
-            if(dealerUpCard.cardValue > 2 && dealerUpCard.cardValue < 7){
-                // dealer has a bust card
-                System.out.print("Player: Staying on " + handValue + "\n");
-                return false;
-            }
-        }
-
-        if(handValue >= stayOn){
-            System.out.print("Player: Staying on " + handValue + "\n");
-            return false;
-        }
-
-        return true;
+        return PlayerStrategy.shouldIHit(handValue, dealerUpCard.cardValue, isSoftHand);
     }
+
+    public void blackJack() { winCount += 1.5; }
 }
